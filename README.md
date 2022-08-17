@@ -167,6 +167,7 @@ canada_basemap <- ggplot(cast_combined,
   coord_map()
 plot(canada_basemap)
 ```
+![000010](https://user-images.githubusercontent.com/8546504/185061182-5d053116-7943-480d-8aab-96ea257321d0.png)
 
 ### Colour Scale
 
@@ -184,6 +185,7 @@ plot(coloured_map)
 
 
 ```
+![000011](https://user-images.githubusercontent.com/8546504/185061304-e6bc333f-a197-4613-a527-b239d3117f0d.png)
 
 ## Adding Data to the Map
 
@@ -195,7 +197,7 @@ castmap <- coloured_map +
              color = "gray50")
 plot(castmap)
 ```
-
+![000012](https://user-images.githubusercontent.com/8546504/185061324-c2518f80-9d50-4338-bd93-9eddfd9ce20f.png)
 
 ## Titles and Annotation
 Let's finish off the plot by showing where the Canadian film casts come from.
@@ -220,3 +222,4 @@ finalmap <- castmap +
   )
 plot(finalmap)
 ```
+![000013](https://user-images.githubusercontent.com/8546504/185061350-774b94b8-e441-47eb-8633-5719cc7a0699.png)
