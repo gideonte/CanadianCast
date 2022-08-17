@@ -102,3 +102,121 @@ cast_and_location <- left_join(canadian_cast,
   distinct(name, .keep_all = TRUE)%>%
   drop_na()
 ```
+### Adding Province's Geographical Data
+
+Next, we will create provinces with latitude and longitude data
+
+```{r province hardcoded data}
+provinces_locations <- tibble(
+  lat = c(53.9333,53.7267,53.7609,46.5653,53.1355,44.6820,51.2538,46.5107,52.9399,52.9399,64.8255,70.2998,64.2823),
+  long = c(-116.5765,-127.6476,-98.8139,-66.4619,-57.6604,-63.7443,-85.3232,-63.4168,-73.5491,-106.4509,-124.8457,-83.1076,-135.0000),
+  province = c("Alberta", "British Columbia", "Manitoba", "New Brunswick", "Newfoundland and Labrador", "Nova Scotia", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan", "Northwest Territories", "Nunavut", "Yukon")
+)
+
+sum_by_province <- data.frame(table(cast_and_location$Province))
+  colnames(sum_by_province) <- c("Province",
+                      "no_of_cast")
+  
+sum_by_province = mutate(sum_by_province, 
+                         percent = no_of_cast/sum(no_of_cast))
+
+```
+
+
+## Visualization
+
+Now, let's load the shapefile
+
+```{r load libraries and shape file, message=FALSE}
+library(rgdal)
+library(rgeos)
+library(maptools)
+library(mapproj)
+library(broom)
+
+world_map <- readOGR("natural_earth_vector/50m_cultural/ne_50m_admin_1_states_provinces.shp")
+canada_map <- world_map[which(world_map$admin == "Canada"),]
+```
+Let's change data format
+
+```{r fortify for ggplot mapping}
+canada_fortified <- fortify(canada_map, region = "name")
+```
+### Join the plotting data
+
+Let's join _canada_fortified_ and _sum_by_province_
+
+```{r join the plotting data}
+cast_combined <- left_join(canada_fortified,
+                          sum_by_province,
+                          by = c("id" = "Province"))
+```
+
+### Create a base map
+
+Then let's create a base map.
+
+```{r create base map}
+canada_basemap <- ggplot(cast_combined,
+                         aes(x = long,
+                             y = lat)) +
+  geom_polygon(aes(group = group,
+                   fill = percent),
+               colour = "grey") + 
+  theme_void() +
+  coord_map()
+plot(canada_basemap)
+```
+
+### Colour Scale
+
+Let's add a colour scale.
+```{r adding colour scale}
+library(RColorBrewer)
+
+blues <- brewer.pal(5, "Blues")
+
+coloured_map <- canada_basemap +
+  scale_fill_gradientn(colours = blues,
+                      na.value = "#FFFFFF",
+                      label = scales::percent)
+plot(coloured_map)
+
+
+```
+
+## Adding Data to the Map
+
+Let's add _cast_and_location_ data to the map
+
+```{r add data to the map}
+castmap <- coloured_map +
+  geom_point(data = cast_and_location,
+             color = "gray50")
+plot(castmap)
+```
+
+
+## Titles and Annotation
+Let's finish off the plot by showing where the Canadian film casts come from.
+
+```{r displaying final vizualization}
+finalmap <- castmap +
+  geom_text(data = provinces_locations,
+            aes(x = long,
+                 y = lat,
+                 label = province),
+            size = 2,
+            hjust = 0,
+            angle = 90) +
+  labs(title = "Where does Canadian Film Cast Come From?",
+       subtitle = "This graphic presents a visualization of the Canadian film cast\nlocated in each province and territory of Canada. Single dots represent\nindividual film casts. The percentage of casts in each province/territory\nbased on the country's total number of film cast. The word casts is\nused in this visualization to present actors and actresses.",
+       caption = "Sources: Internet Movie Database,\nCanadian Geographical Names Database, and\nNatural Earth Data\nConcept & Design: Gideon Msambwa",
+       fill = "Percent of Cast\nin each Province/Territory") +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14),    
+    plot.subtitle = element_text(hjust = 0, colour = "gray50",size = 9),
+    plot.caption = element_text(hjust = 0, colour = "gray50", size = 9)
+  )
+plot(finalmap)
+```
