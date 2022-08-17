@@ -1,9 +1,16 @@
-# Where do Canadian Film Actors and Actresses Come from?
+---
+title: "Canadian Film Actors"
+author: "Gideon Msambwa"
+date: "4/7/2021"
+output:
+  html_document: default
+  pdf_document: default
+---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
-Concept & Design by Gideon Msambwa
-
-April 7, 2021
 
 ## Topic
 
