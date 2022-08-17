@@ -14,6 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # Where do Canadian Film Actors and Actresses Come from?
 
 
+
 ## Introduction
 
 - This report presents where the Canadian film casts are coming from.
@@ -21,11 +22,17 @@ knitr::opts_chunk$set(echo = TRUE)
 - This report will help individuals seeking to meet with different film actors for mentorship and learn from them. 
 
 
+## Tools and Language
+
+- RStudio
+- R Programming Language
+
 
 ## Data Sources 
 - Internet Movie Database (IMDB) for film casts (https://www.kaggle.com/stefanoleone992/imdb-extensive-dataset) 
 - Canadian Geographical Names Database. (https://www.nrcan.gc.ca/earth-sciences/geography/download-geographical-names-data/9245).
 - Natural Earth Data http://naciscdn.org/naturalearth/packages/natural_earth_vector.zip
+
 
 ## Obtaining  and Cleaning Data
 First, we will obtain data of Casts Names and Locations.
@@ -36,6 +43,7 @@ library(tidyverse)
 IMDB_names <- read_csv("IMDb names.csv")
 locations <- read_csv("cgn_canada_csv_eng.csv")
 ```
+
 
 ### Formatting the Cast and Location Data
 
@@ -115,6 +123,7 @@ cast_and_location <- left_join(canadian_cast,
   distinct(name, .keep_all = TRUE)%>%
   drop_na()
 ```
+
 ### Adding Province's Geographical Data
 
 Next, we will create provinces with latitude and longitude data
@@ -155,6 +164,8 @@ Let's change data format
 ```{r fortify for ggplot mapping}
 canada_fortified <- fortify(canada_map, region = "name")
 ```
+
+
 ### Join the plotting data
 
 Let's join _canada_fortified_ and _sum_by_province_
@@ -164,6 +175,7 @@ cast_combined <- left_join(canada_fortified,
                           sum_by_province,
                           by = c("id" = "Province"))
 ```
+
 
 ### Create a base map
 
@@ -181,6 +193,7 @@ canada_basemap <- ggplot(cast_combined,
 plot(canada_basemap)
 ```
 ![000010](https://user-images.githubusercontent.com/8546504/185061182-5d053116-7943-480d-8aab-96ea257321d0.png)
+
 
 ### Colour Scale
 
@@ -200,6 +213,7 @@ plot(coloured_map)
 ```
 ![000011](https://user-images.githubusercontent.com/8546504/185061304-e6bc333f-a197-4613-a527-b239d3117f0d.png)
 
+
 ## Adding Data to the Map
 
 Let's add _cast_and_location_ data to the map
@@ -211,6 +225,7 @@ castmap <- coloured_map +
 plot(castmap)
 ```
 ![000012](https://user-images.githubusercontent.com/8546504/185061324-c2518f80-9d50-4338-bd93-9eddfd9ce20f.png)
+
 
 ## Titles and Annotation
 Let's finish off the plot by showing where the Canadian film casts come from.
