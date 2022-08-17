@@ -1,5 +1,3 @@
-# Where do Canadian Film Actors and Actresses Come from?
-
 ---
 title: "Canadian Film Actors"
 author: "Gideon Msambwa"
@@ -13,6 +11,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Where do Canadian Film Actors and Actresses Come from?
 
 
 ## Introduction
