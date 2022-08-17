@@ -34,6 +34,8 @@ knitr::opts_chunk$set(echo = TRUE)
 - Natural Earth Data http://naciscdn.org/naturalearth/packages/natural_earth_vector.zip
 
 
+
+
 ## Obtaining  and Cleaning Data
 First, we will obtain data of Casts Names and Locations.
 
@@ -145,7 +147,9 @@ sum_by_province = mutate(sum_by_province,
 ```
 
 
-## Visualization
+
+
+## Data Visualization
 
 Now, let's load the shapefile
 
