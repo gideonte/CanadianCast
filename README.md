@@ -20,12 +20,14 @@ knitr::opts_chunk$set(echo = TRUE)
 - The word cast represents actors and actresses.
 - This report will help individuals seeking to meet with different film actors for mentorship and learn from them. 
 
-<img width="1158" alt="Casts" src="https://user-images.githubusercontent.com/8546504/183376867-5cadfe8c-6bd5-4372-9a90-c3c17de66724.png">
 
-## Sources 
-This report will use the Internet Movie Database (IMDB) for film casts (https://www.kaggle.com/stefanoleone992/imdb-extensive-dataset) while geographical names data delivered from the Canadian Geographical Names Database. (https://www.nrcan.gc.ca/earth-sciences/geography/download-geographical-names-data/9245). and Shapefile comes from Natural Earth Data http://naciscdn.org/naturalearth/packages/natural_earth_vector.zip
 
-## Obtaining  Data
+## Data Sources 
+- Internet Movie Database (IMDB) for film casts (https://www.kaggle.com/stefanoleone992/imdb-extensive-dataset) 
+- Canadian Geographical Names Database. (https://www.nrcan.gc.ca/earth-sciences/geography/download-geographical-names-data/9245).
+- Natural Earth Data http://naciscdn.org/naturalearth/packages/natural_earth_vector.zip
+
+## Obtaining  and Cleaning Data
 First, we will obtain data of Casts Names and Locations.
 
 ```{r load libraries and obtain data, message=FALSE}
@@ -233,4 +235,4 @@ finalmap <- castmap +
   )
 plot(finalmap)
 ```
-![000013](https://user-images.githubusercontent.com/8546504/185061350-774b94b8-e441-47eb-8633-5719cc7a0699.png)
+<img width="1158" alt="Casts" src="https://user-images.githubusercontent.com/8546504/183376867-5cadfe8c-6bd5-4372-9a90-c3c17de66724.png">
